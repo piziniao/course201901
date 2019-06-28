@@ -1,5 +1,8 @@
 package com.mashibing.springboot.controller;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -7,11 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageInfo;
+import com.mashibing.springboot.RespStat;
 import com.mashibing.springboot.entity.Account;
 import com.mashibing.springboot.service.AccountService;
 
@@ -84,8 +90,69 @@ public class AccountController {
 	public String list(@RequestParam(defaultValue = "1") int pageNum,@RequestParam(defaultValue = "5" ) int pageSize,Model model) {
 		
 		PageInfo<Account>page = accountSrv.findByPage(pageNum,pageSize);
+		
 		model.addAttribute("page", page);
 		return "/account/list";
 	}
+	
+	@RequestMapping("/deleteById")
+	@ResponseBody
+	public RespStat deleteById(int id) {
+		// 标记一下 是否删除成功？  status
+		RespStat stat = accountSrv.deleteById(id);
+		
+		return stat;
+	}
+	
+	
+	// FastDFS
+	
+	
+	
+	@RequestMapping("/profile")
+	public String profile () {
+		
+		try {
+			  File path = new File(ResourceUtils.getURL("classpath:").getPath());
+		        File upload = new File(path.getAbsolutePath(), "static/upload/");
+		        System.out.println(upload.getAbsolutePath());
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		};
+		return "account/profile";
+	}
+	
+	
+	/**
+	 * 中文字符
+	 * @param filename
+	 * @param password
+	 * @return
+	 */
+	@RequestMapping("/fileUploadController")
+	public String fileUpload (MultipartFile filename,String password) {
+		System.out.println("password:" + password);
+		System.out.println("file:" + filename.getOriginalFilename());
+		try {
+			
+		File path = new File(ResourceUtils.getURL("classpath:").getPath());
+        File upload = new File(path.getAbsolutePath(), "static/upload/");
+        
+        System.out.println("upload:" + upload);
+        
+        filename.transferTo(new File(upload+"/"+filename.getOriginalFilename()));
+        
+        
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "profile";
+	}
+	
 	
 }
