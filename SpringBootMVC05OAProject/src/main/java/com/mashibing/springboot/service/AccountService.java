@@ -28,7 +28,7 @@ public class AccountService {
 		// 1. 没有 
 		// 2. 有一条 
 		// 3. 好几条 X
-		List<Account> list = accMapper.selectByExample(example );
+		List<Account> list = null;
 		
 		return list.size() == 0? null:list.get(0);
 	}
@@ -36,7 +36,7 @@ public class AccountService {
 	public List<Account> findAll() {
 
 		AccountExample example = new AccountExample();
-		return accMapper.selectByExample(example );
+		return null;
 	}
 
 	public PageInfo<Account> findByPage(int pageNum, int pageSize) {
@@ -44,7 +44,7 @@ public class AccountService {
 		PageHelper.startPage(pageNum, pageSize);
 		
 		AccountExample example = new AccountExample();
-		List<Account> list = accMapper.selectByExample(example );
+		List<Account> list = null;
 		return new PageInfo<>(list);
 	}
 }

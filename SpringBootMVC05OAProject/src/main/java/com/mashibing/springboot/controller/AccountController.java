@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.mashibing.springboot.entity.Account;
+import com.mashibing.springboot.mapper.AccountMapper;
+import com.mashibing.springboot.mapper.MenuMapper;
 import com.mashibing.springboot.service.AccountService;
+import com.mashibing.springboot.service.IAccountService;
 
 
 /**
@@ -30,11 +33,19 @@ public class AccountController {
 	@Autowired
 	AccountService accountSrv;
 	
+	@Autowired
+	MenuMapper mp;
 	
+	@Autowired
+	AccountMapper ap;
+	
+	@Autowired
+	IAccountService is; 
 	
 	@RequestMapping("login")
 	public String login() {
-		
+		System.out.println(ap.selectById(1));;
+		System.out.println(is.count());
 		return "account/login";
 	}
 	
