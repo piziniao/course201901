@@ -326,11 +326,10 @@ spring.resources.static-locations=classpath:/META-INF/resources/,classpath:/reso
 
 ### 添加包名称
 
-```
-<build> 的子标签下 添加
-<packaging>war</packaging>
+**<build>** 的子标签下 添加**<finalName>oa</finalName>**  打包的时候会按照指定名称生产文件
 
-```
+根标签project 下添加 <packaging>war</packaging>指明要打成war包
+
 
 
 
